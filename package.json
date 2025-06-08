@@ -1,0 +1,29 @@
+{
+  "name": "@idkwtm/simple-posts",
+  "private": true,
+  "version": "0.0.1",
+  "type": "module",
+  "keywords": [
+    "vite-plugin"
+  ],
+  "main": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "unbuild",
+    "dev": "unbuild --watch",
+    "tc": "tsc"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "@types/react": "latest",
+    "typescript": "latest",
+    "unbuild": "^3.5.0"
+  },
+  "peerDependencies": {
+    "react": "latest",
+    "vite": "latest"
+  },
+  "dependencies": {
+    "parse-md": "^3.0.3"
+  }
+}
