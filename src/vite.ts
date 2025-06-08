@@ -16,15 +16,15 @@ export default function SimplePosts(options : ProcessPostOptions = {}) : PluginO
         },
         buildStart() {
 
-            console.log('Processing pages and posts.');
-            console.log('Posts Dir:', options.postsInputDir);
-            console.log('Pages Dir:', options.pagesInputDir);
-
             // set defaults for empty options
             options.outputDir = (!options.outputDir) ? path.join(config.root, '/src/content') : options.outputDir;
             options.pagesInputDir = (!options.pagesInputDir) ? path.join(config.root, '/src/content/pages') : options.pagesInputDir;
             options.postsInputDir = (!options.postsInputDir) ? path.join(config.root, '/src/content/posts') : options.postsInputDir;
             options.pretty = (!options.pretty) ? false : options.pretty;
+
+            console.log('Processing pages and posts.');
+            console.log('Posts Dir:', options.postsInputDir);
+            console.log('Pages Dir:', options.pagesInputDir);
 
             const pages = ReadDirectory(options.pagesInputDir);
             const posts = ReadDirectory(options.postsInputDir);

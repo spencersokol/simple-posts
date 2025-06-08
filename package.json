@@ -1,17 +1,32 @@
 {
   "name": "@idkwtm/simple-posts",
-  "private": true,
-  "version": "0.0.1",
+  "version": "0.0.9",
   "type": "module",
   "keywords": [
-    "vite-plugin"
+    "vite-plugin",
+    "idkwtm"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "unbuild",
     "dev": "unbuild --watch",
     "tc": "tsc"
+  },
+  "exports" : {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.cjs"
+    },
+    "./vite" : {
+      "import": "./dist/vite.mjs",
+      "types": "./dist/vite.d.ts",
+      "require": "./dist/vite.cjs"
+    }
   },
   "devDependencies": {
     "@types/node": "latest",

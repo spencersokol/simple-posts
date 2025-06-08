@@ -4,7 +4,7 @@ export default {
   declaration: 'compatible',
   clean: true,
   rollup: {
-    emitCJS: false,
+    emitCJS: true,
     inlinedependencies: true
   }
 };

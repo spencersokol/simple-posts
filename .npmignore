@@ -1,0 +1,7 @@
+src/
+.gitignore
+build.config.ts
+node_modules/
+package-lock.json
+package.json
+tsconfig.json
