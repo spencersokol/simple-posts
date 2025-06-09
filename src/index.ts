@@ -6,6 +6,7 @@ import type {
 } from "./post-context"
 
 // TODO output data to public dir?
+// TODO genericize the SimplePost class to allow for extendability?
 
 export type SimplePost = _SimplePost
 export type SimplePostMetaData = _SimplePostMetaData

@@ -1,10 +1,10 @@
 import { PluginOption, ResolvedConfig } from 'vite';
 import path from 'path';
 import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync } from 'fs';
-import { ProcessPostOptions } from './options.type';
-import { Post } from './post';
+import { SimplePostOptions } from './options.type';
+import { SimplePost } from './post';
 
-export default function SimplePosts(options : ProcessPostOptions = {}) : PluginOption {
+export default function SimplePosts(options : SimplePostOptions = {}) : PluginOption {
 
     let config: ResolvedConfig;
 
@@ -36,9 +36,9 @@ export default function SimplePosts(options : ProcessPostOptions = {}) : PluginO
     }
 };
 
-function ReadDirectory(dirpath: PathLike): Post[] {
+function ReadDirectory(dirpath: PathLike): SimplePost[] {
 
-    const posts: Post[] = [];
+    const posts: SimplePost[] = [];
 
     try {
         const files: String[] = readdirSync(dirpath);
@@ -60,11 +60,11 @@ function ReadDirectory(dirpath: PathLike): Post[] {
 
 }
 
-function ParseFile(filepath: PathOrFileDescriptor) : Post | null {
+function ParseFile(filepath: PathOrFileDescriptor) : SimplePost | null {
 
     try {
         const content: string = readFileSync(filepath, 'utf-8');
-        const post = new Post(content);
+        const post = new SimplePost(content);
         return post;
     } catch (err) {
         console.error('Could not read file:', filepath);

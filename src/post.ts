@@ -1,7 +1,7 @@
 import parseMD from "parse-md";
-import { SimplePost, SimplePostMetaData } from "./post.types";
+import { SimplePost as _SimplePost, SimplePostMetaData } from "./post.types";
 
-export class Post implements SimplePost {
+export class SimplePost implements _SimplePost {
 
     readonly type: string = '';
     readonly title: string = '';

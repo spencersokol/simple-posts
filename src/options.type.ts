@@ -1,5 +1,5 @@
 
-export type ProcessPostOptions = {
+export type SimplePostOptions = {
     pretty?: boolean,
     outputDir?: string,
     pagesInputDir?: string,

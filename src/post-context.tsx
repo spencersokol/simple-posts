@@ -1,17 +1,6 @@
-import React, { createContext, ReactNode, useContext } from 'react';
+import React, { createContext, useContext } from 'react';
 import { SimplePost } from './post.types';
-
-export interface SimplePostsContextData {
-    hasPosts: () => boolean,
-    getPostBySlug: (slug: string) => SimplePost | undefined,
-    getPageBySlug: (slug: string) => SimplePost | undefined
-}
-
-export type SimplePostsContextProviderProps = {
-    children?: ReactNode
-    posts: SimplePost[],
-    pages: SimplePost[]
-}
+import { SimplePostsContextData, SimplePostsContextProviderProps } from './post-context.types';
 
 const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePostsContextData);
 

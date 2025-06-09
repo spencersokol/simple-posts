@@ -2,6 +2,14 @@
   "name": "@idkwtm/simple-posts",
   "version": "0.0.9",
   "type": "module",
+  "author": {
+    "name": "Spencer Sokol",
+    "email": "spencer@idkwtm.com"
+  },
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/spencersokol/simple-posts"
+  },
   "keywords": [
     "vite-plugin",
     "idkwtm"
