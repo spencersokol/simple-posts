@@ -3,7 +3,7 @@ import { SimplePostsProvider, useSimplePostsContext } from "./post-context"
 import type { 
     SimplePostsContextData as _SimplePostsContextData, 
     SimplePostsContextProviderProps as _SimplePostsContextProviderProps 
-} from "./post-context"
+} from "./post-context.types"
 
 // TODO output data to public dir?
 // TODO genericize the SimplePost class to allow for extendability?
