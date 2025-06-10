@@ -15,6 +15,12 @@ export const SimplePostsProvider = ({ posts, pages, children }: ISimplePostsCont
         },
         getPageBySlug: (slug: string) : ISimplePost | undefined => {
             return pages.find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
+        },
+        getPosts: () : ISimplePost[] => {
+            return posts;
+        },
+        getPages: () : ISimplePost[] => {
+            return pages;
         }
     };
 
