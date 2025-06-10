@@ -1,4 +1,4 @@
-import type { SimplePost as _SimplePost, SimplePostMetaData as _SimplePostMetaData } from "./post.types"
+import type { ISimplePost as _SimplePost, ISimplePostMetaData as _SimplePostMetaData } from "./post.types"
 import { SimplePostsProvider, useSimplePostsContext } from "./post-context"
 import type { 
     SimplePostsContextData as _SimplePostsContextData, 

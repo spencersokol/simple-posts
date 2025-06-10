@@ -1,14 +1,14 @@
 import { ReactNode } from "react";
-import { SimplePost } from "./post.types";
+import { ISimplePost } from "./post.types";
 
 export interface SimplePostsContextData {
     hasPosts: () => boolean,
-    getPostBySlug: (slug: string) => SimplePost | undefined,
-    getPageBySlug: (slug: string) => SimplePost | undefined
+    getPostBySlug: (slug: string) => ISimplePost | undefined,
+    getPageBySlug: (slug: string) => ISimplePost | undefined
 }
 
 export type SimplePostsContextProviderProps = {
     children?: ReactNode
-    posts: SimplePost[],
-    pages: SimplePost[]
+    posts: ISimplePost[],
+    pages: ISimplePost[]
 }

@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { SimplePost } from './post.types';
+import { ISimplePost } from './post.types';
 import { SimplePostsContextData, SimplePostsContextProviderProps } from './post-context.types';
 
 const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePostsContextData);
@@ -10,11 +10,11 @@ export const SimplePostsProvider = ({ posts, pages, children }: SimplePostsConte
         hasPosts: () : boolean => {
             return (posts.length > 0);
         },
-        getPostBySlug: (slug: string) : SimplePost | undefined => {
-            return posts.find((post: SimplePost) => post.slug === slug) as SimplePost | undefined;
+        getPostBySlug: (slug: string) : ISimplePost | undefined => {
+            return posts.find((post: ISimplePost) => post.slug === slug) as ISimplePost | undefined;
         },
-        getPageBySlug: (slug: string) : SimplePost | undefined => {
-            return pages.find((page: SimplePost) => page.slug === slug) as SimplePost | undefined;
+        getPageBySlug: (slug: string) : ISimplePost | undefined => {
+            return pages.find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
         }
     };
 

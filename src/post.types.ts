@@ -1,11 +1,10 @@
 
-export interface SimplePostMetaData {
+export interface ISimplePostMetaData {
     title: string,
     type: string,
-    slug: string,
-    description: string
+    slug: string
 }
 
-export interface SimplePost extends SimplePostMetaData {
+export interface ISimplePost extends ISimplePostMetaData {
     content: string
 }
