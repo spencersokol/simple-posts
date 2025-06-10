@@ -2,8 +2,9 @@ import { PluginOption, ResolvedConfig } from 'vite';
 import path from 'path';
 import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync } from 'fs';
 import { ISimplePostOptions } from './vite-plugin.types';
-import { ISimplePost } from './post.types';
+import { ISimplePost, ISimplePostMetaData } from './post.types';
 import { BaseSimplePostFactory, SimplePostFactory } from './post-factory';
+import parseMD from 'parse-md';
 
 export default function SimplePosts(options : ISimplePostOptions = {}) : PluginOption {
 
@@ -66,8 +67,9 @@ function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike): ISimp
 function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescriptor) : ISimplePost | null {
 
     try {
-        const content: string = readFileSync(filepath, 'utf-8');
-        const post = factory.createPost(content);
+        const data: string = readFileSync(filepath, 'utf-8');
+        const { metadata, content } = parseMD(data);
+        const post = factory.createPost(metadata as ISimplePostMetaData, content);
         return post;
     } catch (err) {
         console.error('Could not read file:', filepath);
