@@ -1,4 +1,3 @@
-import parseMD from "parse-md";
 import { ISimplePost, ISimplePostMetaData } from "./post.types";
 
 export abstract class BaseSimplePostFactory {
@@ -13,6 +12,7 @@ export class SimplePostFactory extends BaseSimplePostFactory {
 
         post.title = meta.title ?? 'Untitled';
         post.slug = meta.slug ?? 'untitled';
+        post.type = meta.type ?? 'post';
 
         post.content = content;
 
