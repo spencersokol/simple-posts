@@ -1,10 +1,10 @@
 import React, { createContext, useContext } from 'react';
 import { ISimplePost } from './post.types';
-import { SimplePostsContextData, SimplePostsContextProviderProps } from './post-context.types';
+import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './post-context.types';
 
-const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePostsContextData);
+const SimplePostsContext = createContext<ISimplePostsContextData>({} as ISimplePostsContextData);
 
-export const SimplePostsProvider = ({ posts, pages, children }: SimplePostsContextProviderProps) => {
+export const SimplePostsProvider = ({ posts, pages, children }: ISimplePostsContextProviderProps) => {
 
     const data = {
         hasPosts: () : boolean => {

@@ -1,16 +1,15 @@
-import type { ISimplePost as _SimplePost, ISimplePostMetaData as _SimplePostMetaData } from "./post.types"
+import type { ISimplePost, ISimplePostMetaData } from "./post.types"
 import { SimplePostsProvider, useSimplePostsContext } from "./post-context"
-import type { 
-    SimplePostsContextData as _SimplePostsContextData, 
-    SimplePostsContextProviderProps as _SimplePostsContextProviderProps 
-} from "./post-context.types"
+import type { ISimplePostsContextData, ISimplePostsContextProviderProps } from "./post-context.types"
+import { BaseSimplePostFactory, SimplePostFactory } from "./post-factory"
 
-// TODO output data to public dir?
-// TODO genericize the SimplePost class to allow for extendability?
-
-export type SimplePost = _SimplePost
-export type SimplePostMetaData = _SimplePostMetaData
-
-export { SimplePostsProvider, useSimplePostsContext }
-export type SimplePostsContextData = _SimplePostsContextData
-export type SimplePostsContextProviderProps = _SimplePostsContextProviderProps
+export {
+    BaseSimplePostFactory,
+    SimplePostFactory,
+    ISimplePost,
+    ISimplePostMetaData,
+    ISimplePostsContextData as SimplePostsContextData,
+    ISimplePostsContextProviderProps as SimplePostsContextProviderProps,
+    SimplePostsProvider,
+    useSimplePostsContext
+}
