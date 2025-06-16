@@ -10,6 +10,9 @@ export const SimplePostsProvider = ({ content, children }: ISimplePostsContextPr
     const pages = content.filter((post) => 'page' === post.type.toLowerCase().trim());
 
     const data = {
+        isLoaded: () : boolean => {
+            return (Array.isArray(content) && (content.length > 0));
+        },
         hasPosts: () : boolean => {
             return (posts.length > 0);
         },
