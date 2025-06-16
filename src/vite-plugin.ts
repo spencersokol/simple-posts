@@ -19,7 +19,7 @@ export default function SimplePosts(options : ISimplePostOptions = {}) : PluginO
         buildStart() {
 
             // set defaults for empty options
-            options.outputDir = options.outputDir ?? path.join(config.root, '/src/content');
+            options.outputDir = options.outputDir ?? path.join(config.root, '/public');
             options.pagesInputDir = options.pagesInputDir ?? path.join(config.root, '/src/content/pages');
             options.postsInputDir = options.postsInputDir ?? path.join(config.root, '/src/content/posts');
             options.pretty = options.pretty ?? false;
@@ -30,17 +30,19 @@ export default function SimplePosts(options : ISimplePostOptions = {}) : PluginO
             console.log('Posts Dir:', options.postsInputDir);
             console.log('Pages Dir:', options.pagesInputDir);
 
-            const pages = ReadDirectory(postFactory, options.pagesInputDir);
-            const posts = ReadDirectory(postFactory, options.postsInputDir);
+            // TODO: determine post types from subdirectories
+            const pages = ReadDirectory(postFactory, options.pagesInputDir, 'page');
+            const posts = ReadDirectory(postFactory, options.postsInputDir, 'post');
 
-            writeFileSync(`${options.outputDir}/pages.json`, (options.pretty) ? JSON.stringify(pages, null, 4) : JSON.stringify(pages));
-            writeFileSync(`${options.outputDir}/posts.json`, (options.pretty) ? JSON.stringify(posts, null, 4) : JSON.stringify(posts));
+            const content = [ ...posts, ...pages ];
+
+            writeFileSync(`${options.outputDir}/content.json`, (options.pretty) ? JSON.stringify(content, null, 4) : JSON.stringify(content));
             
         }
     }
 };
 
-function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike): ISimplePost[] {
+function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike, type: string): ISimplePost[] {
 
     const posts: ISimplePost[] = [];
 
@@ -50,7 +52,7 @@ function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike): ISimp
         files.forEach((file, index) => {
             console.log(`Reading ${file} (#${index})`);
 
-            let post = ParseFile(factory, `${dirpath}/${file}`);
+            let post = ParseFile(factory, `${dirpath}/${file}`, type);
 
             if (post)
                 posts.push(post);
@@ -64,12 +66,14 @@ function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike): ISimp
 
 }
 
-function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescriptor) : ISimplePost | null {
+function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescriptor, type: string) : ISimplePost | null {
 
     try {
         const data: string = readFileSync(filepath, 'utf-8');
         const { metadata, content } = parseMD(data);
-        const post = factory.createPost(metadata as ISimplePostMetaData, content);
+        const meta: ISimplePostMetaData = metadata as ISimplePostMetaData;
+        meta.type = meta.type ?? type;
+        const post = factory.createPost(meta, content);
         return post;
     } catch (err) {
         console.error('Could not read file:', filepath);

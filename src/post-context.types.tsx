@@ -10,7 +10,6 @@ export interface ISimplePostsContextData {
 }
 
 export type ISimplePostsContextProviderProps = {
-    children?: ReactNode
-    posts: ISimplePost[],
-    pages: ISimplePost[]
+    children?: ReactNode,
+    content: ISimplePost[]
 }
