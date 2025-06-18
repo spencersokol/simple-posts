@@ -19,17 +19,27 @@ export const SimplePostsProvider = ({ content, children }: ISimplePostsContextPr
         hasPages: () : boolean => {
             return (pages.length > 0);
         },
+        hasPostsOfType: (type: string) : boolean => {
+            const temp = content.filter((value) => (value.type === type));
+            return (temp.length > 0);
+        },
         getPostBySlug: (slug: string) : ISimplePost | undefined => {
             return posts.find((post: ISimplePost) => post.slug === slug) as ISimplePost | undefined;
         },
         getPageBySlug: (slug: string) : ISimplePost | undefined => {
             return pages.find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
         },
+        getPostOfTypeBySlug: (type: string, slug: string) : ISimplePost | undefined => {
+            return content.find((post: ISimplePost) => post.slug === slug && post.type === type) as ISimplePost | undefined;
+        },
         getPosts: () : ISimplePost[] => {
             return posts;
         },
         getPages: () : ISimplePost[] => {
             return pages;
+        },
+        getPostsOfType: (type: string) : ISimplePost[] => {
+            return content.filter((value: ISimplePost) => (value.type === type));
         }
     };
 

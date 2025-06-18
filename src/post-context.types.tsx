@@ -5,10 +5,13 @@ export interface ISimplePostsContextData {
     isLoaded: () => boolean,
     hasPosts: () => boolean,
     hasPages: () => boolean,
+    hasPostsOfType: (type: string) => boolean,
     getPostBySlug: (slug: string) => ISimplePost | undefined,
     getPageBySlug: (slug: string) => ISimplePost | undefined,
+    getPostOfTypeBySlug: (type: string, slug: string) => ISimplePost | undefined,
     getPosts: () => ISimplePost[],
-    getPages: () => ISimplePost[]
+    getPages: () => ISimplePost[],
+    getPostsOfType: (type: string) => ISimplePost[]
 }
 
 export type ISimplePostsContextProviderProps = {
