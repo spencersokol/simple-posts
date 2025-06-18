@@ -1,7 +1,7 @@
 import { PluginOption, ResolvedConfig } from 'vite';
 import path from 'path';
 import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync } from 'fs';
-import { ISimplePostOptions } from './vite-plugin.types';
+import { ISimplePostOptions, ISimplePostType } from './vite-plugin.types';
 import { ISimplePost, ISimplePostMetaData } from './post.types';
 import { BaseSimplePostFactory, SimplePostFactory } from './post-factory';
 import parseMD from 'parse-md';
@@ -18,25 +18,30 @@ export default function SimplePosts(options : ISimplePostOptions = {}) : PluginO
         },
         buildStart() {
 
+            const content: ISimplePost[] = [];
+
             // set defaults for empty options
-            options.outputDir = options.outputDir ?? path.join(config.root, '/public');
-            options.pagesInputDir = options.pagesInputDir ?? path.join(config.root, '/src/content/pages');
-            options.postsInputDir = options.postsInputDir ?? path.join(config.root, '/src/content/posts');
-            options.pretty = options.pretty ?? false;
+            const { 
+                postFactory = new SimplePostFactory(), 
+                additionalPostTypes : postTypes = [],
+                contentDir = path.join(config.root, '/src/content'),
+                outputDir = path.join(config.root, '/public'),
+                pretty = false
+            } = options;
 
-            const { postFactory = new SimplePostFactory() } = options;
+            postTypes.unshift({ name: 'page', directory: 'pages'});
+            postTypes.unshift({ name: 'post', directory: 'posts'});
+            
+            console.log('Processing content.');
 
-            console.log('Processing pages and posts.');
-            console.log('Posts Dir:', options.postsInputDir);
-            console.log('Pages Dir:', options.pagesInputDir);
+            postTypes.forEach((type: ISimplePostType) => {
+                const postTypeDir = path.join(contentDir, `/${type.directory}`);
+                console.log(type.name, postTypeDir);
+                const posts = ReadDirectory(postFactory, postTypeDir, type.name);
+                content.push(...posts);
+            })
 
-            // TODO: determine post types from subdirectories
-            const pages = ReadDirectory(postFactory, options.pagesInputDir, 'page');
-            const posts = ReadDirectory(postFactory, options.postsInputDir, 'post');
-
-            const content = [ ...posts, ...pages ];
-
-            writeFileSync(`${options.outputDir}/content.json`, (options.pretty) ? JSON.stringify(content, null, 4) : JSON.stringify(content));
+            writeFileSync(`${outputDir}/content.json`, (pretty) ? JSON.stringify(content, null, 4) : JSON.stringify(content));
             
         }
     }
