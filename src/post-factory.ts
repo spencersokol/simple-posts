@@ -13,6 +13,7 @@ export class SimplePostFactory extends BaseSimplePostFactory {
         post.title = meta.title ?? 'Untitled';
         post.slug = meta.slug ?? 'untitled';
         post.type = meta.type ?? 'post';
+        post.date = meta.date ?? new Date(Date.now());
 
         post.content = content;
 
