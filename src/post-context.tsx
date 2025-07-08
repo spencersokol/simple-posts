@@ -4,6 +4,12 @@ import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './pos
 
 const SimplePostsContext = createContext<ISimplePostsContextData>({} as ISimplePostsContextData);
 
+/**
+ * @param {ISimplePostContextProviderProps} props The React props for this provider.
+ * @param {string} props.url The url prop has a default value of '/content.json'.
+ * @param {React.ReactNode[]} props.children Any children of the provider component.
+ * @returns {SimplePostsContext.Provider} The SimplePosts context provider.
+ */
 export const SimplePostsProvider = ({ url = '/content.json', children }: ISimplePostsContextProviderProps) => {
 
     const [content, setContent] = useState<ISimplePost[]>([]);
@@ -32,7 +38,10 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: ISimple
     );
 }
 
-export const useSimplePostsContext = () => useContext(SimplePostsContext);
+/**
+ * @returns {ISimplePostsContextData} The React context
+ */
+export const useSimplePostsContext = () : ISimplePostsContextData => useContext(SimplePostsContext);
 
 async function getData(url: string) : Promise<ISimplePost[]> {
 

@@ -1,6 +1,6 @@
 # Simple Posts
 
-Simple Posts is a tool to help you build a Markdown-based static site with posts and pages. It includes necessary types, React context, and Vite plugin.
+Simple Posts is a tool to help you build a Markdown-based static React site with posts and pages. It includes necessary types, React context, and Vite plugin.
 
 ## Installation
 

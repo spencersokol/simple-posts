@@ -1,6 +1,10 @@
 import { ReactNode } from "react";
 import { ISimplePost } from "./post.types";
 
+/**
+ * React context interface for SimplePosts with a number of useful
+ * methods for quick content access.
+ */
 export interface ISimplePostsContextData {
     isLoaded: () => boolean,
     hasPosts: () => boolean,
@@ -15,6 +19,6 @@ export interface ISimplePostsContextData {
 }
 
 export type ISimplePostsContextProviderProps = {
-    children?: ReactNode,
-    url?: string
+    url?: string,
+    children?: ReactNode
 }
