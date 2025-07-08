@@ -1,6 +1,6 @@
 import { PluginOption, ResolvedConfig } from 'vite';
 import path from 'path';
-import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync } from 'fs';
+import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync, statSync } from 'fs';
 import { ISimplePostOptions, ISimplePostType } from './vite-plugin.types';
 import { ISimplePost, ISimplePostMetaData } from './post.types';
 import { BaseSimplePostFactory, SimplePostFactory } from './post-factory';
@@ -71,6 +71,20 @@ function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike, type: 
 
 }
 
+function GetFileDate(filepath: PathOrFileDescriptor) : Date {
+    try {
+        const stats = statSync(filepath.toString());
+        if (stats.birthtime)
+            return stats.birthtime;
+        else if (stats.mtime)
+            return stats.mtime;
+        else
+            return new Date(Date.now());
+    } catch (err) {
+        return new Date(Date.now());
+    }
+}
+
 function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescriptor, type: string) : ISimplePost | null {
 
     try {
@@ -78,6 +92,7 @@ function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescripto
         const { metadata, content } = parseMD(data);
         const meta: ISimplePostMetaData = metadata as ISimplePostMetaData;
         meta.type = meta.type ?? type;
+        meta.date = meta.date ?? GetFileDate(filepath);
         const post = factory.createPost(meta, content);
         return post;
     } catch (err) {
