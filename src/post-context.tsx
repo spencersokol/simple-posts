@@ -1,17 +1,41 @@
-import React, { createContext, useContext } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ISimplePost } from './post.types';
 import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './post-context.types';
 
 const SimplePostsContext = createContext<ISimplePostsContextData>({} as ISimplePostsContextData);
 
-export const SimplePostsProvider = ({ content, children }: ISimplePostsContextProviderProps) => {
+export const SimplePostsProvider = ({ url = '/content.json', children }: ISimplePostsContextProviderProps) => {
+
+    const [content, setContent] = useState<ISimplePost[]>([]);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
+
+    useEffect(() => {
+        fetch(url)
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error('fetch failed.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (Array.isArray(data)) {
+                    setContent(data);
+                    setIsLoading(false);
+                } else {
+                    throw new Error('Invalid SimplePost content.');
+                }
+            })
+            .catch((err) => {
+                console.error('Unable to load SimplePost content:', err);
+            })
+    }, []); // only render once
 
     const posts = content.filter((post) => 'post' === post.type.toLowerCase().trim());
     const pages = content.filter((post) => 'page' === post.type.toLowerCase().trim());
 
-    const data = {
+    const data : ISimplePostsContextData = {
         isLoaded: () : boolean => {
-            return (Array.isArray(content) && (content.length > 0));
+            return !isLoading && (Array.isArray(content) && (content.length > 0));
         },
         hasPosts: () : boolean => {
             return (posts.length > 0);
