@@ -41,6 +41,13 @@ export default function SimplePosts(options : ISimplePostOptions = {}) : PluginO
                 content.push(...posts);
             })
 
+            // sort the content by date, newest to oldest
+            content.sort((a: ISimplePost, b: ISimplePost) : number => {
+                const dateA = new Date(a.date).getTime();
+                const dateB = new Date(b.date).getTime();
+                return dateB - dateA;
+            });
+
             writeFileSync(`${outputDir}/content.json`, (pretty) ? JSON.stringify(content, null, 4) : JSON.stringify(content));
             
         }
