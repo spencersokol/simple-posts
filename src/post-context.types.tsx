@@ -16,5 +16,5 @@ export interface ISimplePostsContextData {
 
 export type ISimplePostsContextProviderProps = {
     children?: ReactNode,
-    url: string
+    url?: string
 }
