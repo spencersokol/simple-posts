@@ -10,66 +10,84 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: ISimple
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        fetch(url)
-            .then((response) => {
-                if (!response.ok) {
-                    throw new Error('fetch failed.');
-                }
-                return response.json();
-            })
-            .then(data => {
-                if (Array.isArray(data)) {
-                    setContent(data);
-                    setIsLoading(false);
-                } else {
-                    throw new Error('Invalid SimplePost content.');
-                }
-            })
-            .catch((err) => {
+
+        const initSimplePosts = async () => {
+            try {
+                const data = await getData(url);
+                setContent(data);
+                setIsLoading(false);
+            } catch (err) {
                 console.error('Unable to load SimplePost content:', err);
-            })
+            }
+        }
+
+        initSimplePosts();
+
     }, []); // only render once
 
-    const posts = content.filter((post) => 'post' === post.type.toLowerCase().trim());
-    const pages = content.filter((post) => 'page' === post.type.toLowerCase().trim());
-
-    const data : ISimplePostsContextData = {
-        isLoaded: () : boolean => {
-            return !isLoading && (Array.isArray(content) && (content.length > 0));
-        },
-        hasPosts: () : boolean => {
-            return (posts.length > 0);
-        },
-        hasPages: () : boolean => {
-            return (pages.length > 0);
-        },
-        hasPostsOfType: (type: string) : boolean => {
-            const temp = content.filter((value) => (value.type === type));
-            return (temp.length > 0);
-        },
-        getPostBySlug: (slug: string) : ISimplePost | undefined => {
-            return posts.find((post: ISimplePost) => post.slug === slug) as ISimplePost | undefined;
-        },
-        getPageBySlug: (slug: string) : ISimplePost | undefined => {
-            return pages.find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
-        },
-        getPostOfTypeBySlug: (type: string, slug: string) : ISimplePost | undefined => {
-            return content.find((post: ISimplePost) => post.slug === slug && post.type === type) as ISimplePost | undefined;
-        },
-        getPosts: () : ISimplePost[] => {
-            return posts;
-        },
-        getPages: () : ISimplePost[] => {
-            return pages;
-        },
-        getPostsOfType: (type: string) : ISimplePost[] => {
-            return content.filter((value: ISimplePost) => (value.type === type));
-        }
-    };
+    const data : ISimplePostsContextData = buildContextData(content, isLoading);
 
     return (
         <SimplePostsContext.Provider value={data}>{children}</SimplePostsContext.Provider>
     );
 }
 
-export const useSimplePostsContext = () => useContext(SimplePostsContext)
+export const useSimplePostsContext = () => useContext(SimplePostsContext);
+
+async function getData(url: string) : Promise<ISimplePost[]> {
+
+    return fetch(url)
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('fetch failed.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            // TODO: verify data
+            if (Array.isArray(data)) {
+                return data;
+            } else {
+                throw new Error('Invalid SimplePost content.');
+            }
+        });
+
+}
+
+function buildContextData(content : ISimplePost[], isLoading : boolean) : ISimplePostsContextData {
+
+    return {
+        isLoaded: () : boolean => {
+            return !isLoading && (Array.isArray(content) && (content.length > 0));
+        },
+        hasPosts: function() : boolean {
+            return (this.getPosts().length > 0);
+        },
+        hasPages: function() : boolean {
+            return (this.getPages().length > 0);
+        },
+        hasPostsOfType: (type: string) : boolean => {
+            const temp = content.filter((value) => (value.type === type));
+            return (temp.length > 0);
+        },
+        getPostBySlug: function(slug: string) : ISimplePost | undefined {
+            return this.getPosts().find((post: ISimplePost) => post.slug === slug) as ISimplePost | undefined;
+        },
+        getPageBySlug: function(slug: string) : ISimplePost | undefined {
+            return this.getPages().find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
+        },
+        getPostOfTypeBySlug: (type: string, slug: string) : ISimplePost | undefined => {
+            return content.find((post: ISimplePost) => post.slug === slug && post.type === type) as ISimplePost | undefined;
+        },
+        getPosts: () : ISimplePost[] => {
+            return content.filter((post) => 'post' === post.type.toLowerCase().trim());
+        },
+        getPages: () : ISimplePost[] => {
+            return content.filter((post) => 'page' === post.type.toLowerCase().trim());
+        },
+        getPostsOfType: (type: string) : ISimplePost[] => {
+            return content.filter((value: ISimplePost) => (value.type === type));
+        }
+    };
+
+}
