@@ -2,8 +2,8 @@ import { PluginOption, ResolvedConfig } from 'vite';
 import path from 'path';
 import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync, statSync } from 'fs';
 import { ISimplePostOptions, ISimplePostType } from './vite-plugin.types';
-import { ISimplePost, ISimplePostMetaData } from './post.types';
-import { BaseSimplePostFactory, SimplePostFactory } from './post-factory';
+import { ISimplePost, ISimplePostMetaData } from './simple-post.types';
+import { BaseSimplePostFactory, SimplePostFactory } from './simple-post-factory';
 import parseMD from 'parse-md';
 
 export default function SimplePosts(options : ISimplePostOptions = {}) : PluginOption {

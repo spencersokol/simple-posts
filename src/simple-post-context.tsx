@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ISimplePost } from './post.types';
-import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './post-context.types';
+import { ISimplePost } from './simple-post.types';
+import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './simple-post-context.types';
 
 const SimplePostsContext = createContext<ISimplePostsContextData>({} as ISimplePostsContextData);
 

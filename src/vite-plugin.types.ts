@@ -1,4 +1,4 @@
-import { BaseSimplePostFactory } from "./post-factory"
+import { BaseSimplePostFactory } from "./simple-post-factory"
 
 export type ISimplePostOptions = {
     pretty?: boolean,

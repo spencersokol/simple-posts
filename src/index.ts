@@ -1,8 +1,8 @@
-import type { ISimplePost, ISimplePostMetaData } from "./post.types"
-import { SimplePost } from "./post.types"
-import { SimplePostsProvider, useSimplePostsContext } from "./post-context"
-import type { ISimplePostsContextData, ISimplePostsContextProviderProps } from "./post-context.types"
-import { BaseSimplePostFactory, SimplePostFactory } from "./post-factory"
+import type { ISimplePost, ISimplePostMetaData } from "./simple-post.types"
+import { SimplePost } from "./simple-post"
+import { SimplePostsProvider, useSimplePostsContext } from "./simple-post-context"
+import type { ISimplePostsContextData, ISimplePostsContextProviderProps } from "./simple-post-context.types"
+import { BaseSimplePostFactory, SimplePostFactory } from "./simple-post-factory"
 
 export {
     BaseSimplePostFactory,

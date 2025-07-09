@@ -1,9 +1,16 @@
-import { ISimplePost, ISimplePostMetaData, SimplePost } from "./post.types";
+import { ISimplePost, ISimplePostMetaData } from "./simple-post.types";
+import { SimplePost } from "./simple-post";
 
+/**
+ * Factory definition for a SimplePost
+ */
 export abstract class BaseSimplePostFactory {
     abstract createPost(meta: ISimplePostMetaData, content: string) : SimplePost;
 }
 
+/**
+ * Factory implementation for a SimplePost
+ */
 export class SimplePostFactory extends BaseSimplePostFactory {
 
     createPost(meta: ISimplePostMetaData, content: string): SimplePost {

@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { ISimplePost } from "./post.types";
+import { ISimplePost } from "./simple-post.types";
 
 /**
  * React context interface for SimplePosts with a number of useful
@@ -18,6 +18,9 @@ export interface ISimplePostsContextData {
     getPostsOfType: (type: string) => ISimplePost[]
 }
 
+/**
+ * 
+ */
 export interface ISimplePostsContextProviderProps {
     url?: string,
     children?: ReactNode
