@@ -50,7 +50,7 @@ The `date` field is used to initially sort all of the content in reverse chronol
 
 ### Types
 
-`SimplePost` includes all of the properties `SimplePostMetaData`.
+`ISimplePost` includes all of the properties `ISimplePostMetaData`.
 
 ```js
 {
@@ -62,11 +62,11 @@ The `date` field is used to initially sort all of the content in reverse chronol
 }
 ```
 
-`SimplePostsContextData` and `SimplePostsContextProviderProps` round out the React Context API necessities.
+`ISimplePostsContextData` and `ISimplePostsContextProviderProps` round out the React Context API necessities.
 
-`SimplePostOptions` holds all the options for the Vite plugin.
+`ISimplePostOptions` holds all the options for the Vite plugin.
 
-`SimplePostType` describes additional custom post types and the subdirectory they're stored in.
+`ISimplePostType` describes additional custom post types and the subdirectory they're stored in.
 
 ### Setup & Vite Plugin
 
@@ -138,17 +138,17 @@ You can fully extend SimplePosts to create custom post types with additional fun
 ```js
 import { SimplePostFactory, ISimplePost, ISimplePostMetaData } from "@idkwtm/simple-posts";
 
-export interface MySimplePostMetaData extends SimplePostMetaData {
+export interface IMySimplePostMetaData extends ISimplePostMetaData {
     youtubeUrl: string
 }
 
-export interface MySimplePost extends MySimplePostMetaData, SimplePost {}
+export interface IMySimplePost extends IMySimplePostMetaData, ISimplePost {}
 
 export class MySimplePostFactory extends SimplePostFactory {
 
-    createPost(meta: MySimplePostMetaData, content: string): MySimplePost {
+    createPost(meta: IMySimplePostMetaData, content: string): IMySimplePost {
         
-        const post = super.createPost(meta, content) as MySimplePost;
+        const post = super.createPost(meta, content) as IMySimplePost;
 
         post.youtubeUrl = meta.youtubeUrl ?? '';
 

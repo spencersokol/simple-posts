@@ -1,8 +1,8 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { ISimplePost } from './post.types';
-import { SimplePostsContextData, SimplePostsContextProviderProps } from './post-context.types';
+import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './post-context.types';
 
-const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePostsContextData);
+const SimplePostsContext = createContext<ISimplePostsContextData>({} as ISimplePostsContextData);
 
 /**
  * @param {SimplePostContextProviderProps} props The React props for this provider.
@@ -10,7 +10,7 @@ const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePos
  * @param {React.ReactNode[]} props.children Any children of the provider component.
  * @returns {SimplePostsContext.Provider} The SimplePosts context provider.
  */
-export const SimplePostsProvider = ({ url = '/content.json', children }: SimplePostsContextProviderProps) => {
+export const SimplePostsProvider = ({ url = '/content.json', children }: ISimplePostsContextProviderProps) => {
 
     const [content, setContent] = useState<ISimplePost[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -31,7 +31,7 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: SimpleP
 
     }, []); // only render once
 
-    const data : SimplePostsContextData = buildContextData(content, isLoading);
+    const data : ISimplePostsContextData = buildContextData(content, isLoading);
 
     return (
         <SimplePostsContext.Provider value={data}>{children}</SimplePostsContext.Provider>
@@ -41,7 +41,7 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: SimpleP
 /**
  * @returns {ISimplePostsContextData} The React context
  */
-export const useSimplePostsContext = () : SimplePostsContextData => useContext(SimplePostsContext);
+export const useSimplePostsContext = () : ISimplePostsContextData => useContext(SimplePostsContext);
 
 async function getData(url: string) : Promise<ISimplePost[]> {
 
@@ -63,7 +63,7 @@ async function getData(url: string) : Promise<ISimplePost[]> {
 
 }
 
-function buildContextData(content : ISimplePost[], isLoading : boolean) : SimplePostsContextData {
+function buildContextData(content : ISimplePost[], isLoading : boolean) : ISimplePostsContextData {
 
     return {
         isLoaded: () : boolean => {
