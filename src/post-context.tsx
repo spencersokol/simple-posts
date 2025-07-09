@@ -1,18 +1,18 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { ISimplePost } from './post.types';
-import { ISimplePostsContextData, ISimplePostsContextProviderProps } from './post-context.types';
+import { SimplePost } from './post.types';
+import { SimplePostsContextData, SimplePostsContextProviderProps } from './post-context.types';
 
-const SimplePostsContext = createContext<ISimplePostsContextData>({} as ISimplePostsContextData);
+const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePostsContextData);
 
 /**
- * @param {ISimplePostContextProviderProps} props The React props for this provider.
+ * @param {SimplePostContextProviderProps} props The React props for this provider.
  * @param {string} props.url The url prop has a default value of '/content.json'.
  * @param {React.ReactNode[]} props.children Any children of the provider component.
  * @returns {SimplePostsContext.Provider} The SimplePosts context provider.
  */
-export const SimplePostsProvider = ({ url = '/content.json', children }: ISimplePostsContextProviderProps) => {
+export const SimplePostsProvider = ({ url = '/content.json', children }: SimplePostsContextProviderProps) => {
 
-    const [content, setContent] = useState<ISimplePost[]>([]);
+    const [content, setContent] = useState<SimplePost[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -31,7 +31,7 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: ISimple
 
     }, []); // only render once
 
-    const data : ISimplePostsContextData = buildContextData(content, isLoading);
+    const data : SimplePostsContextData = buildContextData(content, isLoading);
 
     return (
         <SimplePostsContext.Provider value={data}>{children}</SimplePostsContext.Provider>
@@ -41,9 +41,9 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: ISimple
 /**
  * @returns {ISimplePostsContextData} The React context
  */
-export const useSimplePostsContext = () : ISimplePostsContextData => useContext(SimplePostsContext);
+export const useSimplePostsContext = () : SimplePostsContextData => useContext(SimplePostsContext);
 
-async function getData(url: string) : Promise<ISimplePost[]> {
+async function getData(url: string) : Promise<SimplePost[]> {
 
     return fetch(url)
         .then((response) => {
@@ -63,7 +63,7 @@ async function getData(url: string) : Promise<ISimplePost[]> {
 
 }
 
-function buildContextData(content : ISimplePost[], isLoading : boolean) : ISimplePostsContextData {
+function buildContextData(content : SimplePost[], isLoading : boolean) : SimplePostsContextData {
 
     return {
         isLoaded: () : boolean => {
@@ -79,23 +79,23 @@ function buildContextData(content : ISimplePost[], isLoading : boolean) : ISimpl
             const temp = content.filter((value) => (value.type === type));
             return (temp.length > 0);
         },
-        getPostBySlug: function(slug: string) : ISimplePost | undefined {
-            return this.getPosts().find((post: ISimplePost) => post.slug === slug) as ISimplePost | undefined;
+        getPostBySlug: function(slug: string) : SimplePost | undefined {
+            return this.getPosts().find((post: SimplePost) => post.slug === slug) as SimplePost | undefined;
         },
-        getPageBySlug: function(slug: string) : ISimplePost | undefined {
-            return this.getPages().find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
+        getPageBySlug: function(slug: string) : SimplePost | undefined {
+            return this.getPages().find((page: SimplePost) => page.slug === slug) as SimplePost | undefined;
         },
-        getPostOfTypeBySlug: (type: string, slug: string) : ISimplePost | undefined => {
-            return content.find((post: ISimplePost) => post.slug === slug && post.type === type) as ISimplePost | undefined;
+        getPostOfTypeBySlug: (type: string, slug: string) : SimplePost | undefined => {
+            return content.find((post: SimplePost) => post.slug === slug && post.type === type) as SimplePost | undefined;
         },
-        getPosts: () : ISimplePost[] => {
+        getPosts: () : SimplePost[] => {
             return content.filter((post) => 'post' === post.type.toLowerCase().trim());
         },
-        getPages: () : ISimplePost[] => {
+        getPages: () : SimplePost[] => {
             return content.filter((post) => 'page' === post.type.toLowerCase().trim());
         },
-        getPostsOfType: (type: string) : ISimplePost[] => {
-            return content.filter((value: ISimplePost) => (value.type === type));
+        getPostsOfType: (type: string) : SimplePost[] => {
+            return content.filter((value: SimplePost) => (value.type === type));
         }
     };
 
