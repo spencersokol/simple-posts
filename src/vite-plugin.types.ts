@@ -1,14 +1,14 @@
 import { BaseSimplePostFactory } from "./post-factory"
 
-export type SimplePostOptions = {
+export type ISimplePostOptions = {
     pretty?: boolean,
     outputDir?: string,
     contentDir?: string,
-    additionalPostTypes?: SimplePostType[],
+    additionalPostTypes?: ISimplePostType[],
     postFactory?: BaseSimplePostFactory
 }
 
-export type SimplePostType = {
+export type ISimplePostType = {
     name: string,
     directory: string
 }

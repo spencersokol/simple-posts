@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { SimplePost } from './post.types';
+import { ISimplePost } from './post.types';
 import { SimplePostsContextData, SimplePostsContextProviderProps } from './post-context.types';
 
 const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePostsContextData);
@@ -12,7 +12,7 @@ const SimplePostsContext = createContext<SimplePostsContextData>({} as SimplePos
  */
 export const SimplePostsProvider = ({ url = '/content.json', children }: SimplePostsContextProviderProps) => {
 
-    const [content, setContent] = useState<SimplePost[]>([]);
+    const [content, setContent] = useState<ISimplePost[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(true);
 
     useEffect(() => {
@@ -43,7 +43,7 @@ export const SimplePostsProvider = ({ url = '/content.json', children }: SimpleP
  */
 export const useSimplePostsContext = () : SimplePostsContextData => useContext(SimplePostsContext);
 
-async function getData(url: string) : Promise<SimplePost[]> {
+async function getData(url: string) : Promise<ISimplePost[]> {
 
     return fetch(url)
         .then((response) => {
@@ -63,7 +63,7 @@ async function getData(url: string) : Promise<SimplePost[]> {
 
 }
 
-function buildContextData(content : SimplePost[], isLoading : boolean) : SimplePostsContextData {
+function buildContextData(content : ISimplePost[], isLoading : boolean) : SimplePostsContextData {
 
     return {
         isLoaded: () : boolean => {
@@ -79,23 +79,23 @@ function buildContextData(content : SimplePost[], isLoading : boolean) : SimpleP
             const temp = content.filter((value) => (value.type === type));
             return (temp.length > 0);
         },
-        getPostBySlug: function(slug: string) : SimplePost | undefined {
-            return this.getPosts().find((post: SimplePost) => post.slug === slug) as SimplePost | undefined;
+        getPostBySlug: function(slug: string) : ISimplePost | undefined {
+            return this.getPosts().find((post: ISimplePost) => post.slug === slug) as ISimplePost | undefined;
         },
-        getPageBySlug: function(slug: string) : SimplePost | undefined {
-            return this.getPages().find((page: SimplePost) => page.slug === slug) as SimplePost | undefined;
+        getPageBySlug: function(slug: string) : ISimplePost | undefined {
+            return this.getPages().find((page: ISimplePost) => page.slug === slug) as ISimplePost | undefined;
         },
-        getPostOfTypeBySlug: (type: string, slug: string) : SimplePost | undefined => {
-            return content.find((post: SimplePost) => post.slug === slug && post.type === type) as SimplePost | undefined;
+        getPostOfTypeBySlug: (type: string, slug: string) : ISimplePost | undefined => {
+            return content.find((post: ISimplePost) => post.slug === slug && post.type === type) as ISimplePost | undefined;
         },
-        getPosts: () : SimplePost[] => {
+        getPosts: () : ISimplePost[] => {
             return content.filter((post) => 'post' === post.type.toLowerCase().trim());
         },
-        getPages: () : SimplePost[] => {
+        getPages: () : ISimplePost[] => {
             return content.filter((post) => 'page' === post.type.toLowerCase().trim());
         },
-        getPostsOfType: (type: string) : SimplePost[] => {
-            return content.filter((value: SimplePost) => (value.type === type));
+        getPostsOfType: (type: string) : ISimplePost[] => {
+            return content.filter((value: ISimplePost) => (value.type === type));
         }
     };
 

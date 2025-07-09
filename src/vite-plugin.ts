@@ -1,12 +1,12 @@
 import { PluginOption, ResolvedConfig } from 'vite';
 import path from 'path';
 import { PathLike, PathOrFileDescriptor, readdirSync, readFileSync, writeFileSync, statSync } from 'fs';
-import { SimplePostOptions, SimplePostType } from './vite-plugin.types';
-import { SimplePost, SimplePostMetaData } from './post.types';
+import { ISimplePostOptions, ISimplePostType } from './vite-plugin.types';
+import { ISimplePost, ISimplePostMetaData } from './post.types';
 import { BaseSimplePostFactory, SimplePostFactory } from './post-factory';
 import parseMD from 'parse-md';
 
-export default function SimplePosts(options : SimplePostOptions = {}) : PluginOption {
+export default function SimplePosts(options : ISimplePostOptions = {}) : PluginOption {
 
     let config: ResolvedConfig;
 
@@ -18,7 +18,7 @@ export default function SimplePosts(options : SimplePostOptions = {}) : PluginOp
         },
         buildStart() {
 
-            const content: SimplePost[] = [];
+            const content: ISimplePost[] = [];
 
             // set defaults for empty options
             const { 
@@ -34,7 +34,7 @@ export default function SimplePosts(options : SimplePostOptions = {}) : PluginOp
             
             console.log('Processing content.');
 
-            postTypes.forEach((type: SimplePostType) => {
+            postTypes.forEach((type: ISimplePostType) => {
                 const postTypeDir = path.join(contentDir, `/${type.directory}`);
                 console.log(type.name, postTypeDir);
                 const posts = ReadDirectory(postFactory, postTypeDir, type.name);
@@ -42,7 +42,7 @@ export default function SimplePosts(options : SimplePostOptions = {}) : PluginOp
             })
 
             // sort the content by date, newest to oldest
-            content.sort((a: SimplePost, b: SimplePost) : number => {
+            content.sort((a: ISimplePost, b: ISimplePost) : number => {
                 const dateA = new Date(a.date).getTime();
                 const dateB = new Date(b.date).getTime();
                 return dateB - dateA;
@@ -54,9 +54,9 @@ export default function SimplePosts(options : SimplePostOptions = {}) : PluginOp
     }
 };
 
-function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike, type: string): SimplePost[] {
+function ReadDirectory(factory: BaseSimplePostFactory, dirpath: PathLike, type: string): ISimplePost[] {
 
-    const posts: SimplePost[] = [];
+    const posts: ISimplePost[] = [];
 
     try {
         const files: String[] = readdirSync(dirpath);
@@ -92,12 +92,12 @@ function GetFileDate(filepath: PathOrFileDescriptor) : Date {
     }
 }
 
-function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescriptor, type: string) : SimplePost | null {
+function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescriptor, type: string) : ISimplePost | null {
 
     try {
         const data: string = readFileSync(filepath, 'utf-8');
         const { metadata, content } = parseMD(data);
-        const meta: SimplePostMetaData = metadata as SimplePostMetaData;
+        const meta: ISimplePostMetaData = metadata as ISimplePostMetaData;
         meta.type = meta.type ?? type;
         meta.date = meta.date ?? GetFileDate(filepath);
         const post = factory.createPost(meta, content);

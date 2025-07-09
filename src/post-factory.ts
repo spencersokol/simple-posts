@@ -1,14 +1,14 @@
-import { SimplePost, SimplePostMetaData } from "./post.types";
+import { ISimplePost, ISimplePostMetaData } from "./post.types";
 
 export abstract class BaseSimplePostFactory {
-    abstract createPost(meta: SimplePostMetaData, content: string) : SimplePost;
+    abstract createPost(meta: ISimplePostMetaData, content: string) : ISimplePost;
 }
 
 export class SimplePostFactory extends BaseSimplePostFactory {
 
-    createPost(meta: SimplePostMetaData, content: string): SimplePost {
+    createPost(meta: ISimplePostMetaData, content: string): ISimplePost {
 
-        const post = {} as SimplePost;
+        const post = {} as ISimplePost;
 
         post.title = meta.title ?? 'Untitled';
         post.slug = meta.slug ?? 'untitled';

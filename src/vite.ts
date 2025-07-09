@@ -1,4 +1,4 @@
-import type { SimplePostOptions, SimplePostType } from "./vite-plugin.types";
+import type { ISimplePostOptions, ISimplePostType } from "./vite-plugin.types";
 import SimplePosts from "./vite-plugin";
 
-export { SimplePosts, SimplePostOptions, SimplePostType }
+export { SimplePosts, ISimplePostOptions, ISimplePostType }

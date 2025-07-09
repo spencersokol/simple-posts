@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { SimplePost } from "./post.types";
+import { ISimplePost } from "./post.types";
 
 /**
  * React context interface for SimplePosts with a number of useful
@@ -10,12 +10,12 @@ export interface SimplePostsContextData {
     hasPosts: () => boolean,
     hasPages: () => boolean,
     hasPostsOfType: (type: string) => boolean,
-    getPostBySlug: (slug: string) => SimplePost | undefined,
-    getPageBySlug: (slug: string) => SimplePost | undefined,
-    getPostOfTypeBySlug: (type: string, slug: string) => SimplePost | undefined,
-    getPosts: () => SimplePost[],
-    getPages: () => SimplePost[],
-    getPostsOfType: (type: string) => SimplePost[]
+    getPostBySlug: (slug: string) => ISimplePost | undefined,
+    getPageBySlug: (slug: string) => ISimplePost | undefined,
+    getPostOfTypeBySlug: (type: string, slug: string) => ISimplePost | undefined,
+    getPosts: () => ISimplePost[],
+    getPages: () => ISimplePost[],
+    getPostsOfType: (type: string) => ISimplePost[]
 }
 
 export type SimplePostsContextProviderProps = {

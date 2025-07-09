@@ -133,7 +133,7 @@ Then any child component can reference the `useSimplePostsContext` to access any
 
 ### Extensibility & Custom Post Types
 
-You can fully extend SimplePosts to create custom post types with additional functionality and metadata to meet your needs. For example, if you wanted to add a YouTube URL to your posts and build embed code:
+You can fully extend SimplePosts to create custom post types with additional functionality and metadata to meet your needs. For example, if you wanted to add a YouTube URL to your posts:
 
 ```js
 import { SimplePostFactory, ISimplePost, ISimplePostMetaData } from "@idkwtm/simple-posts";
