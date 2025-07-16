@@ -3,7 +3,7 @@ import { ISimplePost } from "./simple-post.types";
 import { ISimplePostOptions } from "./vite-plugin.types";
 import { ResolvedConfig } from "vite";
 import { writeFileSync } from "fs";
-import RSS from "rss";
+import { Feed } from "feed";
 
 export default function GenerateRSS(config: ResolvedConfig, options: ISimplePostOptions, content: ISimplePost[]) {
 
@@ -16,17 +16,18 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         rootUrl
     } = options;
 
-    const feed = new RSS({
+    const feed = new Feed({
         title: 'My Blog',
-        feed_url: `${rootUrl}/${rssFileName}`,
-        site_url: rootUrl,
-        image_url: `${rootUrl}/favicon.ico`,
+        id: rootUrl,
+        link: rootUrl,
+        image: `${rootUrl}/favicon.ico`,
         docs: 'http://example.com/rss/docs.html',
-        managingEditor: 'Spencer Sokol',
-        webMaster: 'Spencer Sokol',
         copyright: `${new Date().getFullYear()} Spencer Sokol`,
-        pubDate: `${new Date().toLocaleDateString()}`,
+        updated: new Date(Date.now()),
         language: 'en',
+        feedLinks: {
+            rss: `${rootUrl}/${rssFileName}`
+        }
     });
 
     // TODO: filter properly
@@ -41,16 +42,18 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
 
         console.log(`Adding post ${permalink}`);
 
-        feed.item({
+        feed.addItem({
             title: item.title,
             description: item.content,
             date: item.date,
-            url: permalink,
-            author: 'Spencer Sokol'
+            link: permalink,
+            author: [{
+                name: 'Spencer Sokol'
+            }]
         });
     }
 
-    const xml = feed.xml();
+    const xml = feed.rss2();
 
     writeFileSync(`${outputDir}/${rssFileName}`, (pretty) ? xml : xml);
     
