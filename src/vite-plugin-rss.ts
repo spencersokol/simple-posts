@@ -34,7 +34,7 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         link: rootUrl,
         favicon: `${rootUrl}/favicon.ico`,
         docs: 'http://example.com/rss/docs.html',
-        copyright: `${new Date(Date.now()).getFullYear()} Spencer Sokol`,
+        copyright: `© ${new Date(Date.now()).getFullYear()} ${siteTitle}`,
         generator: 'SimplePosts',
         language: 'en',
         feedLinks: {
