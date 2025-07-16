@@ -1,6 +1,6 @@
 {
   "name": "@idkwtm/simple-posts",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "type": "module",
   "author": {
     "name": "Spencer Sokol",
@@ -24,13 +24,13 @@
     "dev": "unbuild --watch",
     "tc": "tsc"
   },
-  "exports" : {
+  "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts",
       "require": "./dist/index.cjs"
     },
-    "./vite" : {
+    "./vite": {
       "import": "./dist/vite.mjs",
       "types": "./dist/vite.d.ts",
       "require": "./dist/vite.cjs"
@@ -47,6 +47,8 @@
     "vite": "latest"
   },
   "dependencies": {
-    "parse-md": "^3.0.3"
+    "@types/rss": "^0.0.32",
+    "parse-md": "^3.0.3",
+    "rss": "^1.2.2"
   }
 }

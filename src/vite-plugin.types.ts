@@ -5,10 +5,16 @@ export type ISimplePostOptions = {
     outputDir?: string,
     contentDir?: string,
     additionalPostTypes?: ISimplePostType[],
-    postFactory?: BaseSimplePostFactory
+    postFactory?: BaseSimplePostFactory,
+    rootUrl: string,
+    contentFileName?: string,
+    rssFileName?: string,
+    rssLength?: number,
+    sitemapFileName?: string
 }
 
 export type ISimplePostType = {
     name: string,
-    directory: string
+    directory: string,
+    prefix: string
 }
