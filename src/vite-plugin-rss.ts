@@ -32,13 +32,21 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
     // TODO: filter properly
     const filteredContent = content.filter(item => 'post' == item.type);
 
+    console.log('Generating RSS...');
+    
     for (let i = 0; i < rssLength && i < filteredContent.length; i++) {
+        
         const item = filteredContent[i];
+        const permalink = `${rootUrl}/blog/${item.slug}/`; // TODO generate properly
+
+        console.log(`Adding post ${permalink}`);
+
         feed.item({
             title: item.title,
-            description: item.description,
+            description: item.content,
             date: item.date,
-            url: `${rootUrl}/blog/${item.slug}/` // TODO generate properly
+            url: permalink,
+            author: 'Spencer Sokol'
         });
     }
 
