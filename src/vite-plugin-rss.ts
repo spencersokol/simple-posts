@@ -2,7 +2,7 @@ import path from "path";
 import { ISimplePost } from "./simple-post.types";
 import { ISimplePostOptions } from "./vite-plugin.types";
 import { ResolvedConfig } from "vite";
-import { writeFileSync } from "fs";
+import { writeFileSync, writeFile } from "fs";
 import { Feed } from "feed";
 
 export default function GenerateRSS(config: ResolvedConfig, options: ISimplePostOptions, content: ISimplePost[]) {
@@ -22,8 +22,7 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         link: rootUrl,
         image: `${rootUrl}/favicon.ico`,
         docs: 'http://example.com/rss/docs.html',
-        copyright: `${new Date().getFullYear()} Spencer Sokol`,
-        updated: new Date(Date.now()),
+        copyright: `${new Date(Date.now()).getFullYear()} Spencer Sokol`,
         language: 'en',
         feedLinks: {
             rss: `${rootUrl}/${rssFileName}`
@@ -44,8 +43,8 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
 
         feed.addItem({
             title: item.title,
-            description: item.content,
-            date: item.date,
+            description: item.content, // TODO: Render Markdown to HTML, add full urls
+            date: new Date(item.date),
             link: permalink,
             author: [{
                 name: 'Spencer Sokol'
@@ -55,6 +54,17 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
 
     const xml = feed.rss2();
 
-    writeFileSync(`${outputDir}/${rssFileName}`, (pretty) ? xml : xml);
+    console.log(`Generated RSS (${xml.length} bytes)`);
+    console.log(path.join(outputDir, rssFileName));
+
+    writeFile(path.join(outputDir, rssFileName), xml, (err) => {
+        if (err) console.log(err);
+    });
+
+    // try {
+    //     writeFileSync(path.join(outputDir, rssFileName), xml.toString(), { encoding: 'utf8' });
+    // } catch (err) {
+    //     console.log('Error generating RSS:', err);
+    // }
     
 }
