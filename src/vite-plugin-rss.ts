@@ -3,7 +3,8 @@ import { ISimplePost } from "./simple-post.types";
 import { ISimplePostOptions } from "./vite-plugin.types";
 import { ResolvedConfig } from "vite";
 import { writeFileSync, writeFile } from "fs";
-import { Feed } from "feed";
+import { Feed, Item } from "feed";
+import Showdown from "showdown";
 
 export default function GenerateRSS(config: ResolvedConfig, options: ISimplePostOptions, content: ISimplePost[]) {
 
@@ -13,16 +14,20 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         pretty = false,
         rssFileName = 'rss.xml',
         rssLength = 20,
-        rootUrl
+        rootUrl,
+        author
     } = options;
+
+    const showdown = new Showdown.Converter();
 
     const feed = new Feed({
         title: 'My Blog',
         id: rootUrl,
         link: rootUrl,
-        image: `${rootUrl}/favicon.ico`,
+        favicon: `${rootUrl}/favicon.ico`,
         docs: 'http://example.com/rss/docs.html',
         copyright: `${new Date(Date.now()).getFullYear()} Spencer Sokol`,
+        generator: 'SimplePosts',
         language: 'en',
         feedLinks: {
             rss: `${rootUrl}/${rssFileName}`
@@ -41,15 +46,27 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
 
         console.log(`Adding post ${permalink}`);
 
-        feed.addItem({
+        const feedItem : Item = {
             title: item.title,
-            description: item.content, // TODO: Render Markdown to HTML, add full urls
+            description: item.description,
+            content: showdown.makeHtml(item.content),
             date: new Date(item.date),
-            link: permalink,
-            author: [{
-                name: 'Spencer Sokol'
-            }]
-        });
+            link: permalink
+        };
+
+        // generate the author
+        if (item.authorName) {
+            let feedItemAuthor : { name: string, email?: string, link?: string } = { name: item.authorName };
+            if (item.authorEmail)
+                feedItemAuthor.email = item.authorEmail;
+            if (item.authorURL)
+                feedItemAuthor.link = item.authorURL
+            feedItem.author = [feedItemAuthor];
+        } else if (author) {
+            feedItem.author = [author];
+        }
+
+        feed.addItem(feedItem);
     }
 
     const xml = feed.rss2();

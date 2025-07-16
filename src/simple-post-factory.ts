@@ -22,6 +22,9 @@ export class SimplePostFactory extends BaseSimplePostFactory {
         post.type = meta.type ?? 'post';
         post.date = meta.date ?? new Date(Date.now());
         post.description = meta.description ?? '';
+        post.authorEmail = meta.authorEmail ?? '';
+        post.authorName = meta.authorName ?? '';
+        post.authorURL = meta.authorURL ?? '';
 
         post.content = content;
 

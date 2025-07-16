@@ -6,7 +6,10 @@ export interface ISimplePostMetaData {
     type: string,
     slug: string,
     date: Date,
-    description: string
+    description: string,
+    authorName: string,
+    authorEmail: string,
+    authorURL: string
 }
 
 /**

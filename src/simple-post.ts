@@ -11,6 +11,9 @@ export class SimplePost implements ISimplePost {
     slug: string
     date: Date
     description: string
+    authorName: string
+    authorEmail: string
+    authorURL: string
 
     constructor(data : ISimplePost) {
         this.content = data.content;
@@ -18,7 +21,10 @@ export class SimplePost implements ISimplePost {
         this.description = data.description;
         this.slug = data.slug;
         this.title = data.title;
-        this.type = data.type;    
+        this.type = data.type;
+        this.authorEmail = data.authorEmail;
+        this.authorName = data.authorName;
+        this.authorURL = data.authorURL;
     }
 
 }

@@ -10,6 +10,11 @@ export type ISimplePostOptions = {
     contentFileName?: string,
     rssFileName?: string,
     rssLength?: number,
+    author?: {
+        name: string,
+        email: string,
+        link: string
+    },
     sitemapFileName?: string
 }
 

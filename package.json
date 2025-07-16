@@ -1,6 +1,6 @@
 {
   "name": "@idkwtm/simple-posts",
-  "version": "0.0.50",
+  "version": "0.0.51",
   "type": "module",
   "author": {
     "name": "Spencer Sokol",
@@ -48,7 +48,9 @@
   },
   "dependencies": {
     "@types/rss": "^0.0.32",
+    "@types/showdown": "^2.0.6",
     "feed": "^5.1.0",
-    "parse-md": "^3.0.3"
+    "parse-md": "^3.0.3",
+    "showdown": "^2.1.0"
   }
 }
