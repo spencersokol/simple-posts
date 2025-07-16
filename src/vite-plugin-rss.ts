@@ -30,14 +30,14 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
     });
 
     // TODO: filter properly
-    const filteredContent = content.filter(item => 'post' == item.type);
+    const filteredContent = [ ...content ];
 
     console.log('Generating RSS...');
 
     for (let i = 0; i < rssLength && i < filteredContent.length; i++) {
         
         const item = filteredContent[i];
-        const permalink = `${rootUrl}/blog/${item.slug}/`; // TODO generate properly
+        const permalink = `${rootUrl}/${item.type}/${item.slug}/`; // TODO generate properly
 
         console.log(`Adding post ${permalink}`);
 
