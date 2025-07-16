@@ -10,7 +10,10 @@ export type ISimplePostOptions = {
     contentFileName?: string,
     rssFileName?: string,
     rssLength?: number,
-    author?: {
+    rssExcludePostTypes: string[],
+    siteTitle: string,
+    siteDescription: string,
+    author: {
         name: string,
         email: string,
         link: string

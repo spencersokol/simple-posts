@@ -12,16 +12,24 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
     const {
         outputDir = path.join(config.root, '/public'),
         pretty = false,
+        additionalPostTypes : postTypes = [],
         rssFileName = 'rss.xml',
         rssLength = 20,
+        rssExcludePostTypes,
         rootUrl,
-        author
+        author,
+        siteTitle,
+        siteDescription
     } = options;
 
     const showdown = new Showdown.Converter();
 
+    postTypes.unshift({ name: 'page', directory: 'pages', prefix: ''});
+    postTypes.unshift({ name: 'post', directory: 'posts', prefix: 'blog'});
+    
     const feed = new Feed({
-        title: 'My Blog',
+        title: siteTitle,
+        description: siteDescription,
         id: rootUrl,
         link: rootUrl,
         favicon: `${rootUrl}/favicon.ico`,
@@ -34,15 +42,25 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         }
     });
 
-    // TODO: filter properly
-    const filteredContent = [ ...content ];
+    const filteredContent = content.filter(item => !rssExcludePostTypes.includes(item.type));
+
+    const postTypePrefixes : Record<string, string> = {};
 
     console.log('Generating RSS...');
 
     for (let i = 0; i < rssLength && i < filteredContent.length; i++) {
         
         const item = filteredContent[i];
-        const permalink = `${rootUrl}/${item.type}/${item.slug}/`; // TODO generate properly
+
+        if (item.type ! in postTypePrefixes) {
+            const type = postTypes.find((type) => type.name === item.type);
+            if (!type)
+                continue;
+            postTypePrefixes[item.type] = type.prefix;
+        }
+        
+        const prefix = postTypePrefixes[item.type];
+        const permalink = `${rootUrl}/${prefix}/${item.slug}/`;
 
         console.log(`Adding post ${permalink}`);
 
@@ -62,7 +80,7 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
             if (item.authorURL)
                 feedItemAuthor.link = item.authorURL
             feedItem.author = [feedItemAuthor];
-        } else if (author) {
+        } else {
             feedItem.author = [author];
         }
 
