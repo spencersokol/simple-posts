@@ -33,7 +33,7 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
     const filteredContent = content.filter(item => 'post' == item.type);
 
     console.log('Generating RSS...');
-    
+
     for (let i = 0; i < rssLength && i < filteredContent.length; i++) {
         
         const item = filteredContent[i];
@@ -52,6 +52,6 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
 
     const xml = feed.xml();
 
-    writeFileSync(`${outputDir}/${rssFileName}`, (pretty) ? JSON.stringify(xml, null, 4) : JSON.stringify(xml));
+    writeFileSync(`${outputDir}/${rssFileName}`, (pretty) ? xml : xml);
     
 }
