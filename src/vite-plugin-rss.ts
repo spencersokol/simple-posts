@@ -52,15 +52,15 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         
         const item = filteredContent[i];
 
-        if (item.type ! in postTypePrefixes) {
+        if (!postTypePrefixes.keys.includes(item.type)) {
             const type = postTypes.find((type) => type.name === item.type);
             if (!type)
                 continue;
             postTypePrefixes[item.type] = type.prefix;
         }
         
-        const prefix = postTypePrefixes[item.type];
-        const permalink = `${rootUrl}/${prefix}/${item.slug}/`;
+        const prefix = postTypePrefixes[item.type] ? '/' + postTypePrefixes[item.type] : '';
+        const permalink = `${rootUrl}${prefix}/${item.slug}/`;
 
         console.log(`Adding post ${permalink}`);
 
