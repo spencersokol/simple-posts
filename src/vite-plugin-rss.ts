@@ -52,7 +52,7 @@ export default function GenerateRSS(config: ResolvedConfig, options: ISimplePost
         
         const item = filteredContent[i];
 
-        if (!postTypePrefixes.keys.includes(item.type)) {
+        if (!postTypePrefixes.keys?.includes(item.type)) {
             const type = postTypes.find((type) => type.name === item.type);
             if (!type)
                 continue;
