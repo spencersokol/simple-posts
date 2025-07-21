@@ -2,7 +2,7 @@ import path from "path";
 import { ISimplePost } from "./simple-post.types";
 import { ISimplePostOptions } from "./vite-plugin.types";
 import { ResolvedConfig } from "vite";
-import { writeFileSync, writeFile } from "fs";
+import { writeFile } from "fs";
 import { Feed, Item } from "feed";
 import Showdown from "showdown";
 
