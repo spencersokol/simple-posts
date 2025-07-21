@@ -1,6 +1,6 @@
 # Simple Posts
 
-Simple Posts is a tool to help you build a Markdown-based static React site with posts and pages. It includes necessary types, React context, and Vite plugin.
+Simple Posts is a tool to help you build a Markdown-based static React site with posts and pages. It includes necessary types, React context, and Vite plugin. It can also generate a sitemap and RSS feed.
 
 ## Motivation
 
@@ -89,8 +89,23 @@ export default defineConfig({
     pretty?: boolean,
     outputDir?: string,
     contentDir?: string,
-    additionalPostTypes?: SimplePostType[],
-    postFactory?: BaseSimplePostFactory
+    additionalPostTypes?: ISimplePostType[],
+    postFactory?: BaseSimplePostFactory,
+    rootUrl: string,
+    contentFileName?: string,
+    disableRSS: boolean,
+    disableSitemap: boolean,
+    rssFileName?: string,
+    rssLength?: number,
+    rssExcludePostTypes: string[],
+    siteTitle: string,
+    siteDescription: string,
+    author: {
+        name: string,
+        email: string,
+        link: string
+    },
+    sitemapFileName?: string
 }
 ```
 
@@ -99,6 +114,17 @@ export default defineConfig({
 3. `contentDir` defaults to the `/src/content` folder in the project.
 4. `additionalPostTypes` allows you to add custom post types beyond `page` and `post`.
 5. `postFactory` defaults to the `BaseSimplePostFactory`
+6. `rootUrl` is the URL for your deployed site.
+7. `contentFileName` defaults to `content.json`
+8. `disableRSS` defaults to false
+9. `disableSitemap` defaults to false
+10. `rssFileName` defaults to `rss.xml`
+12. `rssLength` is the number of posts to use in the RSS feed. Defaults to 20.
+13. `rssExcludePostTypes` an array of any post types you don't want to have appear in the RSS feed.
+14. `siteTitle` is a title for your site to appear in the RSS feed.
+15. `siteDescription` is a descript for your site to appear in the RSS feed.
+16. `author` a definition for the default author for posts in the RSS feed. An object containing `name`, `email`, and `link`.
+17. `sitemapFileName` defaults to `sitemap.xml`.
 
 ### React
 

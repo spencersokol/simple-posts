@@ -8,6 +8,8 @@ export type ISimplePostOptions = {
     postFactory?: BaseSimplePostFactory,
     rootUrl: string,
     contentFileName?: string,
+    disableRSS: boolean,
+    disableSitemap: boolean,
     rssFileName?: string,
     rssLength?: number,
     rssExcludePostTypes: string[],

@@ -17,13 +17,15 @@ export default function SimplePosts(options : ISimplePostOptions) : PluginOption
         },
         buildStart() {
 
+            const { disableRSS = false, disableSitemap = false } = options;
+
             const content: ISimplePost[] = ProcessContent(config, options);
 
-            // TODO: Build RSS
-            GenerateRSS(config, options, content);
+            if (!disableRSS)
+                GenerateRSS(config, options, content);
 
-            // TODO: Build sitemap.xml
-            GenerateSitemap(config, options, content);
+            if (!disableSitemap)
+                GenerateSitemap(config, options, content);
 
         }
     }
