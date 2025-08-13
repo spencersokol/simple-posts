@@ -55,6 +55,9 @@ async function getData(url: string) : Promise<ISimplePost[]> {
         .then(data => {
             // TODO: verify data
             if (Array.isArray(data)) {
+                for (const post of data) {
+                    post.date = new Date(post.date);
+                }
                 return data;
             } else {
                 throw new Error('Invalid SimplePost content.');
