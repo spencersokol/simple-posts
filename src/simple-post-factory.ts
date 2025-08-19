@@ -25,6 +25,7 @@ export class SimplePostFactory extends BaseSimplePostFactory {
         post.authorEmail = meta.authorEmail ?? '';
         post.authorName = meta.authorName ?? '';
         post.authorURL = meta.authorURL ?? '';
+        post.published = meta.published ?? false;
 
         post.content = content;
 

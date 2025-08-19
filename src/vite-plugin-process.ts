@@ -29,7 +29,10 @@ export default function ProcessContent(config: ResolvedConfig, options: ISimpleP
         const postTypeDir = path.join(contentDir, `/${type.directory}`);
         console.log(type.name, postTypeDir);
         const posts = ReadDirectory(postFactory, postTypeDir, type.name);
-        content.push(...posts);
+        posts.forEach((post: ISimplePost) => {
+            if (post.published)
+                content.push(post);
+        })
     })
 
     // sort the content by date, newest to oldest
@@ -89,7 +92,8 @@ function ParseFile(factory: BaseSimplePostFactory, filepath: PathOrFileDescripto
         const { metadata, content } = parseMD(data);
         const meta: ISimplePostMetaData = metadata as ISimplePostMetaData;
         meta.type = meta.type ?? type;
-        meta.date = meta.date ?? GetFileDate(filepath);
+        meta.date = meta.date ? new Date(meta.date) : GetFileDate(filepath);
+        meta.published = meta.published ?? false;
         const post = factory.createPost(meta, content);
         return post;
     } catch (err) {

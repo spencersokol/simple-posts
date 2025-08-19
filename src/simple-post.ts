@@ -14,6 +14,7 @@ export class SimplePost implements ISimplePost {
     authorName: string
     authorEmail: string
     authorURL: string
+    published: boolean
 
     constructor(data : ISimplePost) {
         this.content = data.content;
@@ -25,6 +26,7 @@ export class SimplePost implements ISimplePost {
         this.authorEmail = data.authorEmail;
         this.authorName = data.authorName;
         this.authorURL = data.authorURL;
+        this.published = data.published;
     }
 
 }

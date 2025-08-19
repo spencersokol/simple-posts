@@ -9,7 +9,8 @@ export interface ISimplePostMetaData {
     description: string,
     authorName: string,
     authorEmail: string,
-    authorURL: string
+    authorURL: string,
+    published: boolean
 }
 
 /**
